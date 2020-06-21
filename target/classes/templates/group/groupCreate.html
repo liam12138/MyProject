@@ -1,0 +1,59 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>组群聊-群聊页</title>
+<link href="../c/base.css" th:href="@{~/css/base.css}" rel="stylesheet" type="text/css">
+<link href="../c/toefl.css" th:href="@{~/css/toefl.css}" rel="stylesheet" type="text/css">
+<link href="../c/bootstrap.min.css" th:href="@{~/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div id="createContent">
+    <form class="form-horizontal" th:action="@{/group/createGroup}">
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">选择群类别</label>
+            <div class="col-sm-10">
+                <select name="type" class="form-control">
+                    <option th:each="type:${types}" th:text="${type.name}" th:value="${type.id}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">群名称</label>
+            <div class="col-sm-10">
+                <input type="text" name="groupName" class="form-control" id="" placeholder="名称">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">上传群头像</label>
+            <div class="col-sm-10">
+                <div class="flcb_cardBuildZp"><img th:src="@{~/img/logo.png}" width="240" height="240"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">群介绍</label>
+            <div class="col-sm-10">
+                <textarea name="groupDesc" class="form-control" placeholder="此处是群介绍"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">群规则</label>
+            <div class="col-sm-10">
+                <textarea name="groupRule" class="form-control" placeholder="此处是群规则"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success">确定</button>
+                <button type="reset" class="btn btn-warning">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

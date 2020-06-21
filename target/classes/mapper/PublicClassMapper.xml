@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wbz.toefl.mapper.PublicClassMapper">
+
+        <select id="getAllClass" resultType="ClassInfor">
+                SELECT
+                    t1.class_id AS classId,
+                    t1.class_title AS className,
+                    t3.type_name AS classType,
+                    t2.user_name AS classTeacher,
+                    t1.start_date AS startDate,
+                    t1.start_time AS startTime,
+                    t1.end_time AS endTime
+                FROM
+                    class_infor AS t1
+                    LEFT JOIN sys_teacher AS t2 ON t1.teacher_id = t2.teacher_id
+                    LEFT JOIN dic_class_type AS t3 ON t1.class_type = t3.type_id
+                WHERE
+                    t1.`status` = 0 OR t1.`status` = 1
+
+        </select>
+
+        <select id="getClassByCondition" resultType="ClassInfor">
+            SELECT
+            t1.class_id AS classId,
+            t1.class_title AS className,
+            t3.type_name AS classType,
+            t2.user_name AS classTeacher,
+            t1.start_date AS startDate,
+            t1.start_time AS startTime,
+            t1.end_time AS endTime
+            FROM
+            class_infor AS t1
+            LEFT JOIN sys_teacher AS t2 ON t1.teacher_id = t2.teacher_id
+            LEFT JOIN dic_class_type AS t3 ON t1.class_type = t3.type_id
+            WHERE
+            t1.`status` != 3
+            <choose>
+                <when test="className != ''">AND t1.class_title = #{className}</when>
+                <when test="teacherId != 0">AND t1.teacher_id = #{teacherId}</when>
+                <when test="classTypeId != 0">AND t1.class_type = #{classTypeId}</when>
+            </choose>
+        </select>
+
+    <select id="getTeacher" resultType="Teacher">
+        select teacher_id as teacherId, user_name as teacherName from sys_teacher
+    </select>
+
+    <select id="getClassType" resultType="ClassType">
+        select type_id as typeId, type_name as typeName from dic_class_type
+    </select>
+
+    <delete id="delClass">
+        delete from class_infor where class_id = #{classId}
+    </delete>
+
+    <select id="getLastClass" resultType="PublicClass">
+        SELECT
+            t1.class_id AS classId,
+            t1.class_title AS className,
+            t1.start_date AS classDate,
+            t1.start_time AS startTime,
+            t1.end_time AS endTime,
+            t1.img_url AS imgUrl,
+            t1.class_guide AS classGuide,
+            IFNULL( t2.reg_num, 0 ) AS regNum,
+            t3.teacher_id AS teacherId,
+            t3.user_name AS teacherName,
+            t3.img_url as teacherImg,
+            t3.phrase_num AS phraseNum,
+            t3.introduce AS introduce
+        FROM
+            class_infor AS t1
+            LEFT JOIN ( SELECT class_id, count( user_id ) AS reg_num FROM class_sign_up GROUP BY class_id ) AS t2 ON t1.class_id = t2.class_id
+            LEFT JOIN sys_teacher AS t3 ON t1.teacher_id = t3.teacher_id
+        WHERE
+            t1.STATUS != 3
+    </select>
+
+    <select id="getAllTeacher" resultType="TeacherDetail">
+        select teacher_id as teacherId, login_name as loginName, user_name as userName, email as email, phone_num as phoneNum,
+        birthday, introduce, img_url as imgUrl, article_num as articleNum, castle_class_num as castleClassNum,
+        phrase_num as phraseNum
+        from sys_teacher where status != 0
+    </select>
+
+    <select id="getTeacherById" resultType="TeacherDetail">
+        select teacher_id as teacherId, login_name as loginName, user_name as userName, email as email, phone_num as phoneNum,
+        birthday, introduce, img_url as imgUrl, article_num as articleNum, castle_class_num as castleClassNum,
+        phrase_num as phraseNum
+        from sys_teacher where status != 0 and teacher_id = #{teacherId}
+    </select>
+</mapper>

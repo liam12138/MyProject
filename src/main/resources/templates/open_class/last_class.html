@@ -1,0 +1,49 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<title>无标题文档</title>
+		<link href="../c/base.css" th:href="@{~/css/base.css}" rel="stylesheet" type="text/css">
+		<link href="../c/toefl.css" th:href="@{~/css/toefl.css}" rel="stylesheet" type="text/css">
+	</head>
+
+	<body>
+
+		<div class="doc1180">
+			<div class="open_wrapper fn-clear">
+				
+				<div class="openClass" th:each="course:${lastClass}">
+					<div class="openClassDate"><span class="openClassD" th:text="${course.classDate.substring(8, 10)+'日'}"></span><span class="openClassM" th:text="${course.classDate.substring(5, 7)+'月'}"></span></div>
+					<dl class="fn-clear">
+						<dt>
+			            	<div class="openClassTec"><a th:href="@{/teacher/teacherDetail/{teacherId}(teacherId=${course.teacherId})}"><img th:src="${course.teacherImg}" width="125" height="125"></a></div>
+			                <div class="openClassName">主讲人：[[${course.teacherName}]]</div>
+			                <a class="openClassZan" href="###" th:text="${course.phraseNum}">32</a>
+			                <div class="openClassJieshao" th:text="${course.introduce.subSequence(0, 50)}"></div>
+			                <div class="openClassMore"><a th:href="@{/teacher/teacherDetail/{teacherId}(teacherId=${course.teacherId})}">了解更多</a></div>
+			        	</dt>
+						<dd>
+							<h3 class="openClassTitle" th:text="${course.className}"></h3>
+							<div class="openClassTime">课程时间：<span th:text="${course.classDate}"></span>&nbsp;&nbsp;<span>[[${course.startTime}]]-[[${course.endTime}]]</span></div>
+							<div class="openClassPic">
+								<a th:href="@{/classDetail/{classId}(classId=${course.classId})}"><img th:src="${course.imgUrl}" width="720" height="415"></a>
+							</div>
+						</dd>
+					</dl>
+					<div class="openClassText">
+						<h3>课程大纲</h3>
+						<p th:text="${course.classGuide}"></p>
+					</div>
+					<div class="openBaoming">
+						<a th:href="@{/payment/payment1/{classId}(classId=${course.classId})}" class="openClassBm">立即报名</a>
+						<span>已报名人数：<b>[[${course.regNum}]]人</b></span>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>

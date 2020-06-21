@@ -1,0 +1,85 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>名师推荐</title>
+<link href="../c/base.css" th:href="@{~/css/base.css}" rel="stylesheet" type="text/css">
+<link href="../c/toefl.css" th:href="@{~/css/toefl.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript" th:src="@{~/js/jQuery.js}" src="../j/jQuery.js"></script>
+<script type="text/javascript" th:src="@{~/js/common.js}" src="../j/common.js"></script>
+</head>
+
+<body>
+
+<div class="doc1180">
+	<div class="doc1180 fn-clear">
+<!-- 代码 开始 -->
+<div class="banner_index">
+  <a href="javascript:void(0);" class="btn btnPre" id="banner_index_pre"></a>
+  <a href="javascript:void(0);" class="btn btnNext" id="banner_index_next"></a>
+    <ul class="banner_wrap" id="banner_index">
+      <li><a href="###" target="_blank"><img th:src="@{~/img/banner_index_1.jpg}"/></a></li>
+      <li><a href="###" target="_blank"><img th:src="@{~/img/banner_index_2.jpg}"/></a></li>
+      <li><a href="###" target="_blank"><img th:src="@{~/img/banner_index_3.jpg}"/></a></li>
+    </ul>
+</div>
+<div class="indexBanner_num" id="index_numIco"></div>
+<script type="text/javascript">
+var ShowPre1 = new ShowPre({box:"banner_index",Pre:"banner_index_pre",Next:"banner_index_next",numIco:"index_numIco",loop:1,auto:1});
+</script>
+<!-- 代码 结束 -->
+    </div>
+  <div class="mstj_main">
+  	  <div class="mstj_Js">
+          <dl>
+                <dt><a href="#"><img th:src="${teacher.imgUrl}" style="width: 125px; height: 125px;" ></a></dt>
+                <dd>
+                	<div class="mstj_Nr"><span>老师名字：[[${teacher.userName}]]</span>一般的网站会有很多页面,面包屑导航可以大大改善用户寻找他们的路径的方法。就可用性而言,面包屑可以减少一个网站的用户返回上一级页面的操作次数,而且他们可以提高般的网站会有很多页面,面包屑导航可以大大改善用户寻找他们的路径的方法。就可用性而言,面包屑可以减少一个网站的用户返回上一级页面的操作次数,而且他们可以提</div>
+                    <div class="fn-clear">
+                    <a href="###" class="openClassZan classInfo_zan" th:text="${teacher.phraseNum}"></a>
+                    <a href="###" class="classInfo_weibo">进入老师微博</a>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <div class="classInfo_menu fn-clear">
+            <ul>
+                <li><a href="###">Ta的原创文章</a></li>
+                <li class="on"><a href="###">Ta的帖子</a></li>
+                <li><a href="###">Ta的公开课</a></li>
+                <li><a href="###">Ta的活动</a></li>
+                <li><a href="###">Ta的精品课</a></li>
+            </ul>
+        </div>
+        <div class="mstj_list">
+        	<dl>
+            	<dt>
+                	<h3 class="mstj_H3">他的公开课</h3>
+                    <div class="mstj_info"><b class="blue">老师名字</b><span>于2015-12-29日发表</span><span>|</span><span>最后回复</span><span>5分钟前</span></div>
+                </dt>
+                <dd>
+                	<div class="mstj_icon2">1234</div>
+                    <div class="mstj_icon1">1234</div>
+                </dd>
+            </dl>
+            
+        </div>
+        <div class="pageList">
+        	<ul>
+            <li><span>1</span></li>
+            <li><a href="###">2</a></li>
+            <li><a href="###">3</a></li>
+            <li><a href="###">4</a></li>
+            <li><a href="###">5</a></li>
+            <li><a href="###">最后一页</a></li>
+            <li><a href="###" class="pret">上一页</a></li>
+            <li><a href="###" class="next">下一页</a></li>
+            </ul>
+        </div>
+    
+  </div>
+	
+</div>
+
+</body>
+</html>

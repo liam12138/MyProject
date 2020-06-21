@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wbz.toefl.mapper.GroupTypeMapper">
+
+<select id="getAllGroupType" resultType="GroupType">
+select
+    type_id as id,
+    type_name as name
+from dic_group_type
+where status = 0
+</select>
+
+<select id="getGroupTypeById" resultType="GroupType">
+select
+    type_id as id,
+    type_name as name
+from dic_group_type
+where status = 0 and type_id = #{id}
+</select>
+
+</mapper>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<link href="../c/base.css" th:href="@{~/css/base.css}" rel="stylesheet" type="text/css">
+<link href="../c/toefl.css" th:href="@{~/css/toefl.css}" rel="stylesheet" type="text/css">
+<script type="text/javascript" th:src="@{~/js/jQuery.js}"></script>
+</head>
+
+<body>
+
+<div class="openMenu">
+	<div class="doc1180">
+    	<ul class="fn-clear">
+        	<li id="li1" class="openMenuOn"><a th:href="@{/last_class/0}" target="publicIfr">最新公开课</a></li>
+            <li id="li2"><a th:href="@{/teacher/recommend/1}" target="publicIfr">名师推荐</a></li>
+        </ul>
+        <script type="text/javascript">
+            $("#li1").click(function () {
+                $("#li2").removeClass();
+                $("#li1").addClass("openMenuOn");
+            })
+            $("#li2").click(function () {
+                $("#li1").removeClass();
+                $("#li2").addClass("openMenuOn");
+            })
+        </script>
+    </div>
+</div>
+
+<iframe id = "publicIfr" name='publicIfr'  th:src="@{/last_class/0}" style="width: 99vw;height: 84vh;" frameborder="no"></iframe>
+
+
+<script type="text/javascript">
+  // 计算页面的实际高度，iframe自适应会用到
+  function calcPageHeight(doc) {
+      var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight);
+      var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
+      var height  = Math.max(doc.body.clientHeight, doc.body.scrollHeight);
+      return height
+  }
+  var ifr = document.getElementById('publicIfr')
+  ifr.onload = function() {
+  	  var inter = window.setInterval(function() {
+  	  	  var iDoc = ifr.contentDocument || ifr.document
+	      var height = calcPageHeight(iDoc)
+	      ifr.style.height = height + 'px'
+  	  	
+  	  },100);
+  	  window.setTimeout(function() {
+  	  	window.clearInterval(inter);
+  	  },10000);
+      
+  }
+</script>
+
+
+</body>
+</html>

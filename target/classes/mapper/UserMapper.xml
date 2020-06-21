@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wbz.toefl.mapper.UserMapper">
+
+<select id="userLogin" resultType="User">
+        select user_id as id, login_name as name from sys_user where login_name = #{name} and password = #{password}
+</select>
+
+        <select id="adminLogin" resultType="String">
+                select * from sys_admin where login_name = #{name} and password = #{password};
+        </select>
+
+        <select id="getMyGroup" resultType="GroupList">
+            SELECT
+                    t1.group_id AS groupId,
+                    t1.group_name AS groupName,
+                    t1.img_url AS imgUrl,
+                    t4.type_name AS typeName,
+                    t1.group_desc AS groupDesc,
+                    t1.create_time createTime,
+                    t2.person_num AS personNum,
+                    IFNULL( t3.my_status, 0 ) AS myStatus
+                FROM
+                    group_infor AS t1
+                    LEFT JOIN ( SELECT group_id, count( admin_id ) AS person_num FROM group_user GROUP BY group_id ) AS t2 ON t1.group_id = t2.group_id
+                    LEFT JOIN ( SELECT group_id, admin_id AS my_status FROM group_user WHERE admin_id = #{userId} ) AS t3 ON t1.group_id = t3.group_id
+                    LEFT JOIN dic_group_type AS t4 ON t1.group_type = t4.type_id
+                WHERE
+                    t3.my_status != 0
+        </select>
+
+    <select id="getMyCreate" resultType="GroupList">
+            SELECT
+                    t1.group_id AS groupId,
+                    t1.group_name AS groupName,
+                    t1.img_url AS imgUrl,
+                    t4.type_name AS typeName,
+                    t1.group_desc AS groupDesc,
+                    t1.create_time createTime,
+                    t2.person_num AS personNum,
+                    IFNULL( t3.my_status, 0 ) AS myStatus
+                FROM
+                    group_infor AS t1
+                    LEFT JOIN ( SELECT group_id, count( admin_id ) AS person_num FROM group_user GROUP BY group_id ) AS t2 ON t1.group_id = t2.group_id
+                    LEFT JOIN ( SELECT group_id, admin_id AS my_status FROM group_user WHERE admin_id = #{userId} ) AS t3 ON t1.group_id = t3.group_id
+                    LEFT JOIN dic_group_type AS t4 ON t1.group_type = t4.type_id
+                WHERE
+                    t3.my_status != 0 and t1.create_teacher = #{userId}
+        </select>
+</mapper>

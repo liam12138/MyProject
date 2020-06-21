@@ -1,0 +1,83 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>首页</title>
+<link href="css/base.css" th:href="@{~/css/base.css}" rel="stylesheet" type="text/css">
+<link href="css/toefl.css" th:href="@{~/css/toefl.css}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" th:href="@{~/css/bootstrap.min.css}" href="css/bootstrap.min.css">
+<script type="text/javascript" th:src="@{~/js/jquery-2.1.0.js}" src="js/jquery-2.1.0.js"></script>
+<script src="js/bootstrap.min.js" th:src="@{~/js/bootstrap.min.js}"></script>
+
+</head>
+
+<body>
+<div th:fragment="top1" class="doc1180">
+    <div class="header">
+        <div class="logo"><a href="####"><img src="img/logo.png"></a></div>
+        <div class="headerUser" th:if="${session.loginUser!=null}">
+            <ul>
+                <li class="headerUserPic"><a href="###"><img src="img/30x30.png"></a></li>
+                <li class="headerUserName">
+                    <a href="common_user" target="ifr1" th:href="@{/user/index}">[[${session.loginUser.name}]]</a>
+                </li>
+                <li class="headerUserNotice">通知<a href="###">14</a></li>
+            </ul>
+        </div>
+        <div class="headerLink" th:if="${session.loginUser==null}">
+            <a href="/loginPage" class="###">登录</a>
+            <a href="/register" class="###">注册</a>
+        </div>
+    </div>
+</div>
+
+
+
+<div th:fragment="top2" class="menu">
+    <div class="doc1180">
+        <div class="menuLink">
+            <ul class="fn-clear">
+                <li class="active"><a href="main" target="ifr">首页</a></li>
+                <li><a href="toefl_person/托福人.html" target="ifr">托福人</a></li>
+                <li><a th:href="@{/lastClass}" target="ifr1">公开课</a></li>
+                <li><a th:href="@{/group/get/0/1}" target="ifr1">群组聊</a></li>
+                <li><a href="welfare_castle/福利城堡-福利城堡.html" target="ifr">福利城堡</a></li>
+            </ul>
+        </div>
+        <div class="fenxiang">
+            <a href="#" class="weibo"><img src="img/weibo.png" ></a>
+            <a href="#" class="weixin"><img src="img/weixin.png" ></a>
+        </div>
+    </div>
+</div>
+
+
+<iframe th:id="ifr" name="ifr1" src="main" style="width: 99vw;height: 84vh;" frameborder="no"></iframe>
+<iframe src="footer" style="width: 99vw;height: 32vh;" frameborder="no"></iframe>
+
+
+<script type="text/javascript">
+  // 计算页面的实际高度，iframe自适应会用到
+  function calcPageHeight(doc) {
+      var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight);
+      var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
+      var height  = Math.max(doc.body.clientHeight, doc.body.scrollHeight);
+      return height
+  }
+  var ifr = document.getElementById('ifr')
+  ifr.onload = function() {
+  	  var inter = window.setInterval(function() {
+  	  	  var iDoc = ifr.contentDocument || ifr.document
+	      var height = calcPageHeight(iDoc)
+	      ifr.style.height = height + 'px'
+  	  	
+  	  },100);
+  	  window.setTimeout(function() {
+  	  	window.clearInterval(inter);
+  	  },10000);
+      
+  }
+</script>
+<!-- 代码结束 -->
+</body>
+</html>

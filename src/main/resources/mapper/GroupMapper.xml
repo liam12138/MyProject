@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wbz.toefl.mapper.GroupMapper">
+
+<select id="getAll" resultType="GroupList">
+SELECT
+	t1.group_id as groupId,
+	t1.group_name as groupName,
+	t1.img_url as imgUrl,
+	t1.group_desc as groupDesc,
+	t1.create_time createTime,
+	t2.person_num as personNum,
+	IFNULL( t3.my_status, 0 ) AS myStatus
+FROM
+	group_infor AS t1
+	LEFT JOIN ( SELECT group_id, count( admin_id ) AS person_num FROM group_user GROUP BY group_id ) AS t2 ON t1.group_id = t2.group_id
+	LEFT JOIN ( SELECT group_id, admin_id AS my_status FROM group_user WHERE admin_id = #{myId} ) AS t3 ON t1.group_id = t3.group_id
+</select>
+
+<select id="getByType" resultType="GroupList">
+SELECT
+	t1.group_id as groupId,
+	t1.group_name as groupName,
+	t1.img_url as imgUrl,
+	t1.group_desc as groupDesc,
+	t1.create_time createTime,
+	t2.person_num as personNum,
+	IFNULL( t3.my_status, 0 ) AS myStatus
+FROM
+	group_infor AS t1
+	LEFT JOIN ( SELECT group_id, count( admin_id ) AS person_num FROM group_user GROUP BY group_id ) AS t2 ON t1.group_id = t2.group_id
+	LEFT JOIN ( SELECT group_id, admin_id AS my_status FROM group_user WHERE admin_id = #{myId} ) AS t3 ON t1.group_id = t3.group_id
+WHERE t1.group_type = #{type}
+</select>
+
+    <select id="getAdminGroupList" resultType="AdminGroupList">
+        select t1.group_id as groupId, t1.group_name as groupName, t1.group_desc as groupDesc, t1.create_time as groupCreateTime, t2.user_name as createName, ifnull(t3.person_num, 0) as personNum, ifnull(t4.admin_num, 0) as adminNum
+        from group_infor as t1
+        left join sys_teacher as t2
+        on t1.create_teacher = t2.teacher_id
+        left join
+        (select group_id, count(admin_id) as person_num from group_user where type = 0 group by group_id )
+        as t3
+        on t1.group_id = t3.group_id
+        left join
+        (select group_id, count(admin_id) as admin_num from group_user where type = 1 group by group_id )
+        as t4
+        on t1.group_id = t4.group_id
+    </select>
+
+    <select id="getAdminGroupListByName" resultType="AdminGroupList">
+        select t1.group_id as groupId, t1.group_name as groupName, t1.group_desc as groupDesc, t1.create_time as groupCreateTime, t2.user_name as createName, ifnull(t3.person_num, 0) as personNum, ifnull(t4.admin_num, 0) as adminNum
+        from (group_infor as t1
+        left join sys_teacher as t2
+        on t1.create_teacher = t2.teacher_id
+        left join
+        (select group_id, count(admin_id) as person_num from group_user where type = 0 group by group_id )
+        as t3
+        on t1.group_id = t3.group_id
+        left join
+        (select group_id, count(admin_id) as admin_num from group_user where type = 1 group by group_id )
+        as t4
+        on t1.group_id = t4.group_id)
+        where t1.group_name like #{name}
+    </select>
+
+    <select id="getAdminGroupListByDate" resultType="AdminGroupList">
+        select t1.group_id as groupId, t1.group_name as groupName, t1.group_desc as groupDesc, t1.create_time as groupCreateTime, t2.user_name as createName, ifnull(t3.person_num, 0) as personNum, ifnull(t4.admin_num, 0) as adminNum
+        from (group_infor as t1
+        left join sys_teacher as t2
+        on t1.create_teacher = t2.teacher_id
+        left join
+        (select group_id, count(admin_id) as person_num from group_user where type = 0 group by group_id )
+        as t3
+        on t1.group_id = t3.group_id
+        left join
+        (select group_id, count(admin_id) as admin_num from group_user where type = 1 group by group_id )
+        as t4
+        on t1.group_id = t4.group_id)
+        where DATE_FORMAT(t1.create_time, "%Y-%m-%d") = #{date}
+    </select>
+
+    <select id="getAdminGroupListByNameAndDate" resultType="AdminGroupList">
+        select t1.group_id as groupId, t1.group_name as groupName, t1.group_desc as groupDesc, t1.create_time as groupCreateTime, t2.user_name as createName, ifnull(t3.person_num, 0) as personNum, ifnull(t4.admin_num, 0) as adminNum
+        from (group_infor as t1
+        left join sys_teacher as t2
+        on t1.create_teacher = t2.teacher_id
+        left join
+        (select group_id, count(admin_id) as person_num from group_user where type = 0 group by group_id )
+        as t3
+        on t1.group_id = t3.group_id
+        left join
+        (select group_id, count(admin_id) as admin_num from group_user where type = 1 group by group_id )
+        as t4
+        on t1.group_id = t4.group_id)
+        where t1.group_name like #{name} and DATE_FORMAT(t1.create_time, "%Y-%m-%d") = #{date}
+    </select>
+
+    <delete id="deleteGroupById">
+        delete from group_user where group_user.group_id = #{id}
+        ;
+        delete from group_admin_apply where group_admin_apply.group_id = #{id}
+        ;
+        delete from group_chat where group_chat.group_id = #{id}
+        ;
+        delete from group_infor where group_infor.group_id = #{id}
+        ;
+    </delete>
+
+    <select id="getGroupById" resultType="GroupList">
+        SELECT
+            t1.group_id as groupId,
+            t1.group_name as groupName,
+            t1.group_type as groupType,
+            t1.img_url as imgUrl,
+            t1.group_desc as groupDesc,
+            t1.group_rule as groupRule,
+            t1.create_time createTime,
+            t2.person_num as personNum,
+            IFNULL( t3.my_status, 0 ) AS myStatus
+        FROM
+            group_infor AS t1
+            LEFT JOIN ( SELECT group_id, count( admin_id ) AS person_num FROM group_user GROUP BY group_id ) AS t2 ON t1.group_id = t2.group_id
+            LEFT JOIN ( SELECT group_id, admin_id AS my_status FROM group_user WHERE admin_id = #{myId} ) AS t3 ON t1.group_id = t3.group_id
+        WHERE t1.group_id = #{id}
+    </select>
+
+    <select id="getGroupAdmin" resultType="GroupUser">
+        SELECT
+            t2.login_name AS NAME,
+            t2.img_url AS url
+        FROM
+            group_user AS t1
+            LEFT JOIN sys_user AS t2 ON t1.admin_id = t2.user_id
+        WHERE
+            t1.group_id = #{groupId}
+            AND t1.type = 1
+    </select>
+
+
+    <select id="getGroupUser" resultType="GroupUser">
+        SELECT
+            t2.login_name AS NAME,
+            t2.img_url AS url
+        FROM
+            group_user AS t1
+            LEFT JOIN sys_user AS t2 ON t1.admin_id = t2.user_id
+        WHERE
+            t1.group_id = #{groupId}
+            AND t1.type = 0
+    </select>
+
+    <insert id="groupAdd">
+        insert into group_user(admin_id, group_id, create_date, type) values (#{id}, #{groupId}, #{createTime}, 0)
+    </insert>
+
+    <select id="getGroupChat" resultType="GroupChat">
+        SELECT
+            t1.chat_id AS chatId,
+            t2.login_name AS userName,
+            t2.img_url AS userImg,
+            t1.last_modify AS createTime,
+        IF
+            ( t2.user_id = #{userId}, 1, 0 ) AS isMe,
+            t1.type AS type
+        FROM
+            group_chat AS t1
+            LEFT JOIN sys_user AS t2 ON t1.user_id = t2.user_id
+        WHERE t1.group_id = #{groupId}
+    </select>
+
+    <insert id="insertChat">
+        INSERT INTO group_chat ( user_id, group_id, last_modify, type )
+        VALUE(#{userId}, #{groupId}, #{date}, 0)
+    </insert>
+
+    <delete id="delChat">
+        DELETE
+        FROM
+            group_chat
+        WHERE
+            chat_id = #{chatId}
+    </delete>
+
+    <update id="modChat">
+        UPDATE group_chat
+        SET type = 0
+        WHERE
+            chat_id = -1
+    </update>
+
+    <delete id="exitGroup">
+        DELETE
+        FROM
+            group_user
+        WHERE
+            admin_id = #{userId}
+            AND group_id = #{groupId}
+    </delete>
+
+    <delete id="delChatByGroupIdAndUserId">
+        DELETE
+        FROM
+            group_chat
+        WHERE
+            user_id = #{userId}
+            AND group_id = #{groupId}
+    </delete>
+
+    <insert id="createGroup" parameterType="com.wbz.toefl.entity.Group">
+        INSERT INTO group_infor ( group_type, group_name, img_url, group_desc, group_rule, create_teacher, create_time, `status` )
+        VALUE
+            (#{groupType}, #{groupName}, #{imgUrl}, #{groupDesc}, #{groupRule}, #{groupTeacher}, #{createTime}, #{status} )
+    </insert>
+
+</mapper>

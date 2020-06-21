@@ -1,0 +1,104 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>组群聊-群聊页</title>
+<link href="../c/base.css" th:href="@{~/css/base.css}" rel="stylesheet" type="text/css">
+<link href="../c/toefl.css" th:href="@{~/css/toefl.css}" rel="stylesheet" type="text/css">
+<link href="../c/bootstrap.min.css" th:href="@{~/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+
+<div class="doc1180 fn-clear">
+	<div class="crumbs_patch">
+        <a href="###" th:text="${groupType.name}" th:href="@{/group/get/{type}/1(type=${groupType.id})}"></a>》
+        <a href="" th:text="${group.groupName}"></a>》
+        <span>群聊</span>
+	</div>
+    <!--页面左侧内容-->
+    <div class="tfr_left">
+    	<div class="zql_Top">
+        	<ul>
+            	<li class="zql_TopPic"><img th:src="${group.imgUrl}" src="../i/82x82.png" width="82" height="82"></li>
+                <li class="zql_TopText">
+                	<div class="zql_TopTitle" th:text="${group.groupName}"></div>
+                    <div class="zql_TopTime">
+                    	<span>建群时间：[[${#dates.format(group.createTime, "yyyy-MM-dd")}]]</span>|<span><b class="blue" th:text="${group.personNum}"></b>人已加入此群</span>
+                    </div>
+                </li>
+                <li class="zql_TopButton">
+                	<a class="btn btn-primary" href="groupDetail.html" th:href="@{/group/info/{groupId}(groupId=${group.groupId})}">查看群组详情</a>
+                </li>
+            </ul>
+        </div>
+        <div class="zql_Body">
+            <dl th:each="groupChat:${groupChats}">
+            	<dt class="zql_BodyPic"><img th:src="${groupChat.userImg}" src="../i/82x82.png" ></dt>
+                <dd class="zql_BodyText">
+                	<div class="zql_BodyTitle">
+                		<span th:if="${groupChat.type==1}" th:text="管理员"></span>[[${groupChat.userName}]]
+                		<div th:if="${groupChat.isMe==1}" style="float: right;">
+                			<a class="btn btn-danger" th:href="@{/group/chatDel/{groupId}/{chatId}(chatId=${groupChat.chatId},groupId=${group.groupId})}">删除</a>
+                			<a class="btn btn-warning" th:href="@{/group/chatMod/{groupId}/{chatId}(chatId=${groupChat.chatId},groupId=${group.groupId})}">编辑</a>
+                		</div>
+                		
+                	</div>
+                    <div class="zql_BodyT">
+                        <p>香港股市近日连续多日均见升幅，前日恒指更一度升穿28000点，而无线前日宣布为配合港股热潮，将于下周一深宵黄金时段(即21日凌晨12时15分)重播由郑少秋、刘青云、郭蔼明、周慧敏及刘松仁主演的《大时代》，即令大批股民喊惊及呼吁别放!言犹在耳，股民最不想发生的“丁蟹效应”似乎已应验，恒指昨日收市跌454点，报收27561点，八日连升之势停止，令不少有买股票的艺人赔钱!</p>
+                    </div>
+                    <div style="width: 170px;float: right;">
+                    	<span>创建日期：</span>[[${#dates.format(groupChat.createTime, "yyyy-MM-dd")}]]
+                    </div>
+                </dd>
+            </dl>
+        </div>  
+        <div class="zql_Bottom">
+            <form action="/group/chatAdd" method="post">
+                <input name="groupId" type="hidden" th:value="${group.groupId}">
+                <div><textarea name="content" cols="" rows="" class="zql_BottomInput"></textarea></div>
+                <div class="paddingT20 fn-clear"><input type="submit" class="btn btn-info" style="float: right" value="发布"></div>
+            </form>
+        </div> 
+  </div>
+    <!--页面左侧内容 end-->
+  	<!--页面右侧内容-->
+	<div class="doc280 fn-right">
+        <div class="index_itemR">
+            <div class="index_itemRtitle">
+                <h3>本群官方管理</h3>
+            </div>
+            <div class="zql_bqgl">
+                <ul>
+                    <li th:each="admin:${admins}"><img th:src="${admin.url}" src="../i/60x60.png" width="60" height="60"></li>
+                </ul>
+            </div>
+		</div>
+        <div class="index_itemR">
+            <div class="index_itemRtitle">
+                <h3>本群管理员</h3>
+            </div>
+            <div class="zql_bqgl">
+                <ul>
+                    <li th:each="admin:${admins}"><img th:src="${admin.url}" src="../i/60x60.png" width="60" height="60"></li>
+                </ul>
+            </div>
+		</div>
+        <div class="index_itemR">
+            <div class="index_itemRtitle">
+                <h3>本群成员</h3>
+            </div>
+            <div class="zql_chengyuan">
+                <ul>
+                    <li th:each="user:${users}"><img th:src="${user.url}" src="../i/60x60.png" width="60" height="60"></li>
+                </ul>
+            </div>
+		</div>
+	</div>
+	<!--页面右侧内容 end-->
+  
+</div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>top_bar</title>
+</head>
+<body>
+<div th:fragment="top1" class="doc1180">
+    <div class="header">
+        <div class="logo"><a href="####"><img src="img/logo.png"></a></div>
+        <div class="headerUser" th:if="${session.loginUser!=null}">
+            <ul>
+                <li class="headerUserPic"><a href="###"><img src="img/30x30.png"></a></li>
+                <li class="headerUserName">
+                    <a href="common_user" target="ifr" th:href="@{/user/index}">[[${session.loginUser.name}]]</a>
+                </li>
+                <li class="headerUserNotice">通知<a href="###">14</a></li>
+            </ul>
+        </div>
+        <div class="headerLink" th:if="${session.loginUser==null}">
+            <a href="/loginPage" class="###">登录</a>
+            <a href="/register" class="###">注册</a>
+        </div>
+    </div>
+</div>
+
+
+
+<div th:fragment="top2" class="menu">
+    <div class="doc1180">
+        <div class="menuLink">
+            <ul class="fn-clear">
+                <li class="active"><a href="main" target="ifr">首页</a></li>
+                <li><a href="toefl_person/托福人.html" target="ifr">托福人</a></li>
+                <li><a th:href="@{/lastClass}" target="ifr">公开课</a></li>
+                <li><a th:href="@{/group/get/0/1}" target="ifr">群组聊</a></li>
+                <li><a href="welfare_castle/福利城堡-福利城堡.html" target="ifr">福利城堡</a></li>
+            </ul>
+        </div>
+        <div class="fenxiang">
+            <a href="#" class="weibo"><img src="img/weibo.png" ></a>
+            <a href="#" class="weixin"><img src="img/weixin.png" ></a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

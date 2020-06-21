@@ -1,0 +1,48 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>登录页</title>
+<link href="css/base.css" rel="stylesheet" type="text/css">
+<link href="css/toefl.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jQuery.js"></script>
+    <style type="text/css">
+        .submit {
+        }
+    </style>
+
+</head>
+
+<body>
+<div th:replace="top_bar::top1"></div>
+<div th:replace="top_bar::top2"></div>
+
+<div class="doc1180">
+	<div class="login">
+    	<div class="login_left">
+       	  <h3 class="login_h3">欢迎登录人人托福</h3>
+            <form action="/login" th:action="@{/login}" method="post">
+            <div class="login_sr"><input type="text" name="username" class="login_inputYhm" placeholder="用户名"></div>
+            <div class="login_sr"><input type="password" name="password" class="login_inputMm" placeholder="密码"></div>
+            <div class="login_sr fn-clear"><input name="" type="text" class="login_inputYzm" value="验证码"><div class="login_inputYzmPic"><img src="img/yzm.png"></div><a href="###" class="login_inputYzmH">看不清，还一张</a></div>
+            <div class="login_xieyi"><input name="" type="checkbox" value="" style="margin-right:10px; vertical-align:middle;">我同意<a href="###">《人人托福网服务协议》</a></div>
+            <div><a class="login_Button"><input type="submit" class="submit" value="登录"></a></div>
+            </form>
+            <div class="login_zcymm"><a href="register">注册帐号</a><a href="###" class="login_zhmm">找回密码</a></div>
+      </div>
+      <div class="login_right">
+      	<div class="login_rightH3">您也可以使用以下方式登录：</div>
+        <div class="login_sanfang"><a href="###"><img src="img/login_wb.png">新浪微博</a></div>
+        <div class="login_sanfang"><a href="###"><img src="img/login_qq.png">QQ登录</a></div>
+        <div class="login_sanfang"><a href="###"><img src="img/login_qw.png">腾讯微博</a></div>
+        <div class="login_sanfang"><a href="###"><img src="img/login_rr.png">人人网</a></div>
+        <div class="login_shouquan">授权后表明你已同意 <a href="###">《人人托福网服务协议》</a></div>
+      </div>
+    </div>
+</div>
+
+<div th:replace="footer_bar::footer1"></div>
+<div th:replace="footer_bar::footer2"></div>
+
+</body>
+</html>

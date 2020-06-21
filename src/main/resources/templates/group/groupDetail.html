@@ -1,0 +1,78 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>组群聊-群聊页</title>
+<link href="../c/base.css" th:href="@{~/css/base.css}" rel="stylesheet" type="text/css">
+<link href="../c/toefl.css" th:href="@{~/css/toefl.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+
+<div class="doc1180 fn-clear">
+	<div class="crumbs_patch">
+        <a href="###" th:text="${groupType.name}" th:href="@{/group/get/{type}/1(type=${groupType.id})}"></a>》
+        <a href="" th:text="${group.groupName}"></a>》
+        <span>群聊</span>
+	</div>
+    <div class="qzl_CyTop">
+    	<div class="qzl_CyInfo">
+        	<ul>
+            	<li class="qzl_CyInfoLeft"><div class="qzl_CyInfoPic"><img th:src="${group.imgUrl}" src="../i/82x82.png"></div></li>
+                <li class="qzl_CyInfoMid">
+                	<div class="qzl_CyInfoMain">
+                    	<h3 th:text="${group.groupName}"></h3>
+                        <div class="qzl_CyInfoTime"><span>建群时间：[[${#dates.format(group.createTime, "yyyy-MM-dd")}]]</span>|<span><b class="blue" th:text="${group.personNum}"></b>人已加入此群</span></div>
+                        <div class="qzl_CyInfoWz">女教师辞职信走红:世界那么大 我想去看看女教师辞职信走红:世界那么大 我想去看看</div>
+                    </div>
+                </li>
+                <li class="qzl_CyInfoRight">
+                    <a class="qzl_CyInfoBut">进群 Say Hi</a>
+                    <div class="qzl_CyInfoOut">
+                        <span>已加入</span>|<a href="###" th:href="@{/group/exit/{groupId}(groupId=${group.groupId})}">退出该群</a>
+                    </div>
+                </li>
+            </ul>
+            <dl class="qzl_CyInfoDl">
+            	<dt>群介绍</dt>
+                <dd th:text="${group.groupDesc}"></dd>
+            </dl>
+            <dl class="qzl_CyInfoDl">
+            	<dt>群规则</dt>
+                <dd th:text="${group.groupRule}"></dd>
+            </dl>
+        </div>
+    </div>
+    <div class="fn-clear">
+    	<div class="qzl_CyTeamLeft">
+            <div class="qzl_CyTeam">
+                <div class="qzl_CyTeamTitle"><h3>管理员</h3></div>
+                <div class="qzl_CyTeamBody">
+                    <ul>
+                        <li th:each="admin:${groupAdmins}">
+                            <div class="qzl_CyTeamPic"><img src="../i/60x60.png" th:src="${admin.url}"></div>
+                            <div class="qzl_CyTeamName" th:text="${admin.name}">名字名字</div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div> 
+        </div>
+        
+    </div>
+    <div class="qzl_CyTeam">
+    	<div class="qzl_CyTeamTitle"><h3>群成员</h3></div>
+        <div class="qzl_CyTeamBody">
+            <ul class="qzl_CyTeam1200">
+                <li th:each="user:${groupUsers}">
+                    <div class="qzl_CyTeamPic"><img src="../i/60x60.png" th:src="${user.url}"></div>
+                    <div class="qzl_CyTeamName" th:text="${user.name}"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

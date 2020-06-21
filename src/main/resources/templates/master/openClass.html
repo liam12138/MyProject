@@ -1,0 +1,110 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<title>系统管理-公开课列表</title>
+		<link href="../c/base.css" th:href="@{~/css/base.css}" rel="stylesheet" type="text/css">
+		<link href="../c/toefl.css" th:href="@{~/css/toefl.css}" rel="stylesheet" type="text/css">
+		<link href="../c/bootstrap.min.css" th:href="@{~/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+		<script type="text/javascript" th:src="@{~/js/jquery-2.1.0.js}" src="../j/jquery-2.1.0.js"></script>
+		<script type="text/javascript" th:src="@{~/js/bootstrap.min.js}" src="../j/bootstrap.min.js"></script>
+		<script type="text/javascript" th:src="@{~/js/lrtk.js}" src="../j/lrtk.js"></script>
+	</head>
+
+	<body>
+		<div class="openMenu">
+			
+		</div>
+		<div class="doc1180 paddingT20 fn-clear container">
+			<div>
+				<form class="form-inline" th:action="@{/admin/open/search}" method="get">
+					<div class="form-group">
+						<label for="exampleInputName2">课程名称</label>
+						<input type="text" name="className" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail2">讲师</label>
+						<select class="form-control" name="teacherId">
+							<option selected="selected" th:value="${0}" th:text="${'===请选择==='}"></option>
+							<option th:each="teacher:${teachers}" th:value="${teacher.teacherId}" th:text="${teacher.teacherName}">alex</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail2">课程类别</label>
+						<select class="form-control" name="typeId">
+							<option selected="selected" th:value="${0}" th:text="${'===请选择==='}"></option>
+							<option th:each="type:${types}" th:value="${type.typeId}" th:text="${type.typeName}"></option>
+						</select>
+					</div>
+					
+					<button type="submit" class="btn btn-primary">搜索</button>
+				</form>
+
+			</div>
+			<div class="myPost_Theme" style="height: 80vh;margin-top: 50px;">
+				<form th:action="@{/admin/class/del}" method="post">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="myPost_Table">
+					<tr class="myPost_Th">
+						<th><input type="checkbox" name="" id="checkAll" value="" /></th>
+						<th>课程名称</th>
+						<th>课程分类</th>
+						<th>讲师</th>
+						<th>开始日期</th>
+						<th>上课时间</th>
+					</tr>
+					<script type="text/javascript">
+						$("#checkAll").click(function () {
+							if ($(this).is(":checked")){
+								$("[name=classId]:checkbox").prop("checked", true);
+							} else {
+								$("[name=classId]:checkbox").prop("checked", false);
+							}
+						})
+					</script>
+					<tr th:each="class:${allClass}">
+						<td><input type="checkbox" name="classId" th:value="${class.classId}" /></td>
+						<td>
+							<a style="color: red;" href="###" th:text="${class.className}"></a>
+						</td>
+						
+						<td th:text="${class.classType}"></td>
+						<td th:text="${class.classTeacher}">alex</td>
+						<td th:text="${class.startDate}"></td>
+						<td>[[${class.startTime}]]--[[${class.endTime}]]</td>
+					</tr>
+
+				</table>
+				<div id="" class="" style="margin-top: 40px;width: 400px; float: left;">
+					<a href="#" class="btn btn-success" >关闭</a>
+					<a href="#" class="btn btn-primary" >恢复</a>
+					<button type="submit" class="btn btn-danger">删除</button>
+				</div>
+				</form>
+				<div class="pageList" style="width: 500px;float: right;">
+					<ul th:if="${msg==1}">
+						<li>
+							<a style="color: #009FD6" th:href="@{/admin/openClass/{page}(page=${pageInfo.pageNum-1})}" class="pret" th:if="${pageInfo.pageNum!=1}">上一页</a>
+						</li>
+						<li>
+							当前第<span th:text="${pageInfo.pageNum}"></span>页/共<span th:text="${pageInfo.lastPage}"></span>页
+						</li>
+						<li>
+							<a th:href="@{/admin/openClass/{page}(page=${pageInfo.lastPage})}">最后一页</a>
+						</li>
+						<li>
+							<a style="color: #009FD6" th:href="@{/admin/openClass/{page}(page=${pageInfo.pageNum+1})}" th:if="${pageInfo.pageNum!=pageInfo.lastPage}" class="next">下一页</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+
+		</div>
+
+		<!--表单元素-->
+		
+		<!-- 代码结束 -->
+	</body>
+
+</html>

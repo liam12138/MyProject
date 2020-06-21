@@ -1,0 +1,94 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8">
+		<title>系统管理-群组列表</title>
+		<link th:href="@{~/css/base.css}" href="../c/base.css" rel="stylesheet" type="text/css">
+		<link th:href="@{~/css/toefl.css}" href="../c/toefl.css" rel="stylesheet" type="text/css">
+		<link th:href="@{~/css/bootstrap.min.css}" href="../c/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<script th:src="@{~/js/jquery-2.1.0.js}" type="text/javascript" src="../j/jquery-2.1.0.js"></script>
+		<script th:src="@{~/js/bootstrap.min.js}" type="text/javascript" src="../j/bootstrap.min.js"></script>
+		<script th:src="@{~/js/lrtk.js}" type="text/javascript" src="../j/lrtk.js"></script>
+	</head>
+
+	<body>
+
+		<div class="doc1180 paddingT20 fn-clear container">
+			<div>
+				<form class="form-inline" th:action="@{/admin/groupListWithParam}" method="get">
+					<div class="form-group">
+						<label for="exampleInputName2">群名称</label>
+						<input type="text" class="form-control" th:value="${name}" name="name" id="exampleInputName2" placeholder="Jane Doe">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail2">创建日期</label>
+						<input type="date" name="date" th:value="${date}" class="form-control" id="exampleInputName2" >
+					</div>
+					<button type="submit" class="btn btn-primary">搜索</button>
+				</form>
+
+			</div>
+			<div class="myPost_Theme" style="height: 80vh;margin-top: 50px;">
+				<form th:action="@{/admin/group/del}" method="get">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="myPost_Table">
+					<tr class="myPost_Th">
+						<th><input type="checkbox" name="groupAll" id="groupAll" /></th>
+						<th>标题</th>
+						<th>描述</th>
+						<th>创建日期</th>
+						<th>创建人</th>
+						<th>群组人数</th>
+						<th>管理员人数</th>
+					</tr>
+					<tr th:each="groupList:${adminGroupList}">
+						<td><input type="checkbox" name="groupId" th:value="${groupList.groupId}"/></td>
+						<td th:text="${groupList.groupName}"></td>
+						<td th:text="${groupList.groupDesc}"></td>
+						<td th:text="${#dates.format(groupList.groupCreateTime, 'yyyy-MM-dd')}"></td>
+						<td th:text="${groupList.createName}"></td>
+						<td th:text="${groupList.personNum}"></td>
+						<td th:text="${groupList.adminNum}"></td>
+					</tr>
+					<script type="text/javascript">
+						$("#groupAll").click(function () {
+							if ($(this).is(":checked")){
+								$("[name=groupId]:checkbox").prop("checked", true);
+							} else {
+								$("[name=groupId]:checkbox").prop("checked", false);
+							}
+						})
+					</script>
+
+				</table>
+				<div id="" class="" style="margin-bottom: -1px;width: 400px; float: left;">
+					<button type="submit" class="btn btn-danger">关闭</button>
+				</div>
+				</form>
+				<div class="pageList" style="width: 500px;float: right;">
+					<ul th:if="${not #strings.isEmpty(size)}">
+						<li th:each="i:${#numbers.sequence(1, size+1)}">
+							<span th:text="${i}" th:if="${page == i}"></span>
+							<a th:href="@{/admin/groupList/{id}(id=${i})}" th:text="${i}" th:if="${page != i}"></a>
+						</li>
+						<li>
+							<a href="###" th:href="@{/admin/groupList/{size}(size=${size+1})}">最后一页</a>
+						</li>
+						<li>
+							<a href="###" class="pret">上一页</a>
+						</li>
+						<li>
+							<a href="###" class="next">下一页</a>
+						</li>
+					</ul>
+				</div>
+
+
+			</div>
+
+		</div>
+
+		
+	</body>
+
+</html>

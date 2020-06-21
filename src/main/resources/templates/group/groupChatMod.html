@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改</title>
+</head>
+<link href="../c/base.css" th:href="@{~/css/base.css}" rel="stylesheet" type="text/css">
+<link href="../c/toefl.css" th:href="@{~/css/toefl.css}" rel="stylesheet" type="text/css">
+<link href="../c/bootstrap.min.css" th:href="@{~/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+<body>
+<div class="doc1180 fn-clear">
+    <div class="tfr_left">
+        <div class="zql_Body">
+            <dl>
+                <dd class="zql_BodyText">
+                    <form th:action="@{/group/chatMod/confirm}" method="post">
+                    <div class="zql_BodyTitle" th:text="${session.loginUser.name}">
+                    </div>
+                        <input type="hidden" name="chatId" th:value="${chatId}">
+                        <input type="hidden" name="groupId" th:value="${groupId}">
+                    <textarea style="width: 725px; height: 130px;" name="content" cols="" rows="" class="zql_BottomInput">香港股市近日连续多日均见升幅，前日恒指更一度升穿28000点，而无线前日宣布为配合港股热潮，将于下周一深宵黄金时段(即21日凌晨12时15分)重播由郑少秋、刘青云、郭蔼明、周慧敏及刘松仁主演的《大时代》，即令大批股民喊惊及呼吁别放!言犹在耳，股民最不想发生的“丁蟹效应”似乎已应验，恒指昨日收市跌454点，报收27561点，八日连升之势停止，令不少有买股票的艺人赔钱!</textarea>
+                    <div class="paddingT20 fn-clear"><input type="submit" class="btn btn-info" style="float: right" value="保存"></div>
+                    </form>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+</body>
+</html>

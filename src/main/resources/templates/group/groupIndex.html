@@ -1,0 +1,69 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>组群聊-组群聊</title>
+<link href="../css/base.css" rel="stylesheet" type="text/css" th:href="@{~/css/base.css}">
+<link href="../css/toefl.css" rel="stylesheet" type="text/css" th:href="@{~/css/toefl.css}">
+<link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css" th:href="@{~/css/bootstrap.min.css}">
+</head>
+
+<body>
+
+<div class="openMenu">
+	<div class="doc1180">
+    	<ul class="fn-clear">
+        	<li class="openMenuOn" th:class="${msg=='0'?'openMenuOn':''}"><a href="" th:href="@{/group/get/0/1}">全部</a></li>
+        	<li th:class="${msg=='1'?'openMenuOn':''}"><a th:href="@{/group/get/1/1}">同城考试群</a></li>
+            <li th:class="${msg=='2'?'openMenuOn':''}"><a th:href="@{/group/get/2/1}">网络考生群</a></li>
+            <li th:class="${msg=='3'?'openMenuOn':''}"><a th:href="@{/group/get/3/1}">考试场次群</a></li>
+            <li th:class="${msg=='4'?'openMenuOn':''}"><a th:href="@{/group/get/4/1}">名师学堂群</a></li>
+            <li th:class="${msg=='5'?'openMenuOn':''}"><a th:href="@{/group/get/5/1}">结伴备考群</a></li>
+        </ul>
+    </div>
+</div>
+<div class="doc1180 paddingT20 fn-clear"><!--页面左侧内容-->
+    <div class="tfr_left">
+    	<div class="zql_itemWyjq"><a href="/group/create" class="itemWyjqB btn btn-danger">我要建群</a></div>
+        <div class="zql_item">
+
+            <ul th:each="group:${groups}">
+                <li class="zql_itemPic"><img src="" th:src="${group.imgUrl}" width="82" height="82"></li>
+                <li class="zql_itemText">
+                    <div class="zql_itemTitle">[[${group.groupName}]]</div>
+                    <div class="zql_itemTime">建群时间：[[${#dates.format(group.createTime, "yyyy-MM-dd")}]]</div>
+                    <div class="zql_itemP">[[${group.groupDesc}]]</div>
+                </li>
+                <li class="zql_itemButton">
+                    <div class="zql_itemNum">[[${group.personNum==null?0:group.personNum}]]人加入</div>
+                    <div class="zql_itemZt" th:if="${group.myStatus!=0}">
+                        <a th:href="@{/group/info/{groupId}(groupId=${group.groupId})}">群信息</a>|<a th:href="@{/group/exit/{groupId}(groupId=${group.groupId})}" >退出该群</a>
+                    </div>
+                    <a class="btn btn-success"
+                       th:class="${group.myStatus!=0?'btn btn-success':'btn btn-primary'}" href="groupChat.html"
+                       th:text="${group.myStatus!=0?'聊天室':'加入群'}"
+                       th:href="@{/group/chat/{status}/{groupId}(status=${group.myStatus},groupId=${group.groupId})}"></a>
+                </li>
+            </ul>
+
+        </div>
+        <div class="pageList">
+        	<ul>
+            <li th:each="i:${#numbers.sequence(1, pageInfo.getPages())}">
+                <span th:text="${i}" th:if="${i==pageInfo.getPageNum()}"></span>
+                <a th:href="@{/group/get/{type}/{page}(page=${i},type=${msg})}" th:text="${i}" th:if="${i!=pageInfo.getPageNum()}"></a>
+            </li>
+            <li></li>
+            <li><a th:href="@{/group/get/{type}/{page}(page=${pageInfo.getLastPage()},type=${msg})}">最后一页</a></li>
+            <li><a href="###" class="pret">上一页</a></li>
+            <li><a href="###" class="next">下一页</a></li>
+            </ul>
+        </div>
+	</div>
+    <!--页面左侧内容 end-->
+  	<!--页面右侧内容-->
+</div>
+
+
+</body>
+</html>
